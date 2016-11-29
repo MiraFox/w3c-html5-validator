@@ -36,20 +36,18 @@ RUN mkdir -p /usr/local/validator \
     && mv /opt/markup-validator-master/httpd/cgi-bin /usr/local/validator \
     && cp /usr/local/validator/htdocs/config/* /etc/w3c
 
-ADD config/supervisord.conf /etc/supervisord.conf
-ADD config/validator.conf /etc/w3c/validator.conf
-ADD config/w3c-validator.conf /etc/apache2/conf-available/w3c-validator.conf
+COPY config/supervisord.conf /etc/supervisord.conf
+COPY config/validator.conf /etc/w3c/validator.conf
+COPY config/w3c-validator.conf /etc/apache2/conf-available/w3c-validator.conf
 COPY scripts/docker-entrypoint.sh /usr/local/bin/
 
 RUN a2enmod cgid expires include rewrite \
     && a2dismod perl \
-    && a2enconf w3c-validator
-
-RUN chmod 755 /usr/local/bin/docker-entrypoint.sh
+    && a2enconf w3c-validator \
+    && chmod 755 /usr/local/bin/docker-entrypoint.sh
 
 WORKDIR /opt
 
 EXPOSE 80 8888
 
-#CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
 CMD ["/usr/local/bin/docker-entrypoint.sh"]
