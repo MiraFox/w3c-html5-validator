@@ -19,5 +19,5 @@ sudo docker pull mirafox/w3c-html5-validator
 ## Запуск
 
 ```
-sudo docker run -d -e W3C_HOST=w3c.example.com mirafox/w3c-html5-validator
+sudo docker run -d -p 80:80 -p 8888:8888 -e W3C_HOST=w3c.example.com mirafox/w3c-html5-validator
 ```

@@ -1,6 +1,9 @@
 FROM debian:jessie
 MAINTAINER Ruzhentsev Alexandr noc@mirafox.ru
 
+ADD https://github.com/validator/validator/releases/download/16.6.29/vnu.jar_16.6.29.zip /opt
+ADD https://github.com/w3c/markup-validator/archive/master.zip /opt/markup-validator-master.zip
+
 RUN echo deb http://httpredir.debian.org/debian jessie-backports main | tee /etc/apt/sources.list.d/backports.list \
     && apt-get update \
     && apt-get -y upgrade \
@@ -21,12 +24,8 @@ RUN echo deb http://httpredir.debian.org/debian jessie-backports main | tee /etc
         libxml-libxml-perl \
         libnet-ip-perl \
     && rm -rf /var/lib/apt/lists/* \
-    && apt-get clean
-
-ADD https://github.com/validator/validator/releases/download/16.6.29/vnu.jar_16.6.29.zip /opt
-ADD https://github.com/w3c/markup-validator/archive/master.zip /opt/markup-validator-master.zip
-
-RUN mkdir -p /usr/local/validator \
+    && apt-get clean \
+    && mkdir -p /usr/local/validator \
     && mkdir -p /etc/w3c \
     && unzip -j /opt/vnu*.zip -d /opt/validator.nu \
     && unzip /opt/markup-validator-master.zip -d /opt \
