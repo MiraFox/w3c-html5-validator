@@ -1,12 +1,15 @@
 FROM debian:jessie
 MAINTAINER Ruzhentsev Alexandr noc@mirafox.ru
 
-ADD https://github.com/validator/validator/releases/download/16.6.29/vnu.jar_16.6.29.zip /opt
+ADD https://github.com/validator/validator/releases/download/17.9.0/vnu.jar_17.9.0.zip /opt
 ADD https://github.com/w3c/markup-validator/archive/master.zip /opt/markup-validator-master.zip
 
 RUN echo deb http://httpredir.debian.org/debian jessie-backports main | tee /etc/apt/sources.list.d/backports.list \
     && apt-get update \
     && apt-get -y upgrade \
+    && apt-get install -t jessie-backports -y \
+        openjdk-8-jre-headless \
+        ca-certificates-java \
     && apt-get install -y \
         apache2 \
         libapache2-mod-perl2 \
